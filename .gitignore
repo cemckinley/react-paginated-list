@@ -1,0 +1,32 @@
+# Compiled source #
+###################
+*.dll
+
+# Logs and databases #
+######################
+*.log
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+Thumbs.db
+
+# Version Control #
+###################
+.svn
+
+# Node #
+################
+npm-debug.log
+node_modules
+
+# Sass #
+########
+.sass-cache
+
+# Development Environment #
+###########################
+src/js/bundle.js
