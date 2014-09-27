@@ -9,7 +9,6 @@ var React = require('react');
 var PaginatedList = React.createClass({displayName: 'PaginatedList',
 
   loadData: function() {
-    console.log('test');
     var request = new XMLHttpRequest();
 
     request.onload = function(response){
@@ -18,7 +17,8 @@ var PaginatedList = React.createClass({displayName: 'PaginatedList',
         var data = JSON.parse(response.target.response);
         this.setState({
           data: data,
-          loaded: true
+          loaded: true,
+          page: 1
         });
       
       } else {
@@ -27,14 +27,22 @@ var PaginatedList = React.createClass({displayName: 'PaginatedList',
 
     }.bind(this);
 
-    request.open('GET', 'http://data.seattle.gov/resource/3k2p-39jp.json');
+    request.open('GET', 'http://data.seattle.gov/resource/3k2p-39jp.json?$where=event_clearance_date%20IS%20NOT%20NULL&$order=event_clearance_date%20DESC');
     request.send();
+  },
+
+  changeToPage: function(pageNo) {
+    console.log('change page', pageNo);
+    this.setState({
+      page: pageNo
+    });
   },
 
   getInitialState: function() {
     return {
       data: [],
-      loaded: false
+      loaded: false,
+      page: 1
     };
   },
 
@@ -43,10 +51,16 @@ var PaginatedList = React.createClass({displayName: 'PaginatedList',
   },
 
   render: function() {
+    var startIndex = (this.state.page - 1) * this.props.itemsPerPage;
+    var endIndex = (this.state.page * this.props.itemsPerPage);
+    var data = this.state.data.slice(startIndex, endIndex);
+    var totalPages = Math.ceil(this.state.data.length / this.props.itemsPerPage);
+
     return(
-      React.DOM.div({id: "paginated-list", className: this.state.loaded ? 'loaded' : ''}, 
-        React.DOM.div({className: "list"}, List({data: this.state.data})), 
-        React.DOM.div({className: "pagination"})
+      React.DOM.div({id: "paginated-list", className: this.state.loaded ? 'loaded' : 'loading'}, 
+        Pagination({totalPages: totalPages, page: this.state.page, changeToPage: this.changeToPage}), 
+        List({data: data}), 
+        Pagination({totalPages: totalPages, page: this.state.page, changeToPage: this.changeToPage})
       )
     );
   }
@@ -58,11 +72,13 @@ var List = React.createClass({displayName: 'List',
   
   render: function() {
     var nodes = this.props.data.map(function(listItem, index){
-      return ListItem({key: index, title: listItem.title, description: listItem.description})
+      return ListItem({data: listItem, key: index})
     });
     
     return(
-      React.DOM.ul({id: "heroList"}, nodes)
+      React.DOM.div({className: "list"}, 
+        React.DOM.ul({id: "heroList"}, nodes)
+      )
     );
   }
 
@@ -72,19 +88,94 @@ var List = React.createClass({displayName: 'List',
 var ListItem = React.createClass({displayName: 'ListItem',
   
   render: function() {
+    var time = new Date(this.props.data.event_clearance_date);
+    time = (time.getMonth() + 1) + '/' + time.getDate() + '/' +  time.getFullYear() + ' at ' + time.getHours() + ':' + time.getMinutes();
+
     return (
       React.DOM.li(null, 
-        React.DOM.h3(null, this.props.title), 
-        React.DOM.p(null, this.props.description)
+        React.DOM.h3(null, this.props.data.event_clearance_group, " | ", React.DOM.span({className: "time"}, time)), 
+        React.DOM.p(null, this.props.data.event_clearance_description)
       )
     );
   }
 
 });
 
+var Pagination = React.createClass({displayName: 'Pagination',
+
+  getPages: function() {
+    var pages = [];
+    // display 5 page buttons, or number of total pages, whichever is lowest
+    var pageButtonCount = Math.min(5, this.props.totalPages);
+    // start by displaying the two pages before the active page
+    var offset = -2;
+    // if page is nearing the end, adjust offset so more page buttons display before it
+    if (this.props.totalPages - this.props.page <= 2) offset -= this.props.totalPages - this.props.page;
+
+    while (pageButtonCount) {
+      // don't display pages less than 1 or greater than total pages
+      if (this.props.page + offset > 0) {
+        pages.push(this.props.page + offset);
+        pageButtonCount--;
+      }
+      offset++;
+    }
+
+    return pages;
+  },
+
+  _onPrevClick: function(event) {
+    event.preventDefault();
+
+    if (this.props.page !== 1) {
+      this.props.changeToPage(this.props.page - 1);
+    }
+  },
+
+  _onNextClick: function(event) {
+    event.preventDefault();
+
+    if (this.props.page !== this.props.totalPages) {
+      this.props.changeToPage(this.props.page + 1);
+    }
+  },
+
+  render: function() {
+    var pages = this.getPages().map(function(page, index){
+      return PageButton({pageNo: page, changeToPage: this.props.changeToPage, isActive: page === this.props.page})
+    }.bind(this));
+
+    return (
+      React.DOM.div({className: "pagination"}, 
+        React.DOM.a({href: "", onClick: this._onPrevClick, className: this.props.page === 1 ? 'prevBtn disabled' : 'prevBtn'}, "Prev"), 
+        React.DOM.ol(null, pages), 
+        React.DOM.a({href: "", onClick: this._onNextClick, className: this.props.page === this.props.totalPages ? 'nextBtn disabled' : 'nextBtn'}, "Next")
+      )
+    );
+  }
+});
+
+var PageButton = React.createClass({displayName: 'PageButton',
+
+  _onClick: function(event) {
+    event.preventDefault();
+
+    if (!this.props.isActive) {
+      this.props.changeToPage(this.props.pageNo);
+    }
+  },
+
+  render: function() {
+    return (
+      React.DOM.li({className: this.props.isActive ? 'active' : ''}, 
+        React.DOM.a({href: "", onClick: this._onClick}, this.props.pageNo)
+      )
+    );
+  }
+});
 
 React.renderComponent(
-  PaginatedList(null), document.getElementById('container')
+  PaginatedList({itemsPerPage: 10}), document.getElementById('container')
 );
 
 
