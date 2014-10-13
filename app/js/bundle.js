@@ -30,7 +30,6 @@ var CrimeList = React.createClass({displayName: 'CrimeList',
   },
 
   changeToPage: function(pageNo) {
-    console.log('change page', pageNo);
     this.setState({
       page: pageNo
     });
@@ -157,10 +156,14 @@ var Pagination = React.createClass({displayName: 'Pagination',
     var pages = [];
     // display 5 page buttons, or number of total pages, whichever is lowest
     var pageButtonCount = Math.min(5, this.props.totalPages);
-    // start by displaying the two pages before the active page
+    // start by displaying the two pages before the active page so active page appears in
+    // the middle of buttons
     var offset = -2;
+    
     // if page is nearing the end, adjust offset so more page buttons display before it
-    if (this.props.totalPages - this.props.page <= 2) offset -= this.props.totalPages - this.props.page;
+    if (this.props.totalPages - this.props.page < 2) {
+      offset -= 2 - (this.props.totalPages - this.props.page);
+    }
 
     while (pageButtonCount) {
       // don't display pages less than 1 or greater than total pages

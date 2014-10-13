@@ -29,7 +29,6 @@ var CrimeList = React.createClass({
   },
 
   changeToPage: function(pageNo) {
-    console.log('change page', pageNo);
     this.setState({
       page: pageNo
     });
