@@ -3,8 +3,9 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
   font-size: 15px;
   line-height: 1.7;
-  margin: 0;
   padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 a {
@@ -33,7 +34,6 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-  border-bottom: 1px solid #ddd;
   font-size: 2.5em;
   font-weight: bold;
   margin: 0 0 15px;
@@ -54,9 +54,97 @@ h4 {
 }
 
 p, ul {
-  margin: 15px 0;
+  margin: 0 0 30px 0;
 }
 
 ul {
   padding-left: 30px;
 }
+
+header {
+  border-bottom: 1px solid gray;
+}
+
+
+/**-----------------------------------------------------------------------**/
+/* Crime List */
+/**-----------------------------------------------------------------------**/
+
+#CrimeList .pagination {
+  padding: 20px 0;
+  border-bottom: 1px solid gray;
+}
+
+#CrimeList .pagination ol{
+  display: inline-block;
+  vertical-align: middle;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+  #CrimeList .pagination li {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 5px;
+    margin: 0 5px;
+  }
+
+    #CrimeList .pagination li.active {
+      background: #4183c4;
+    }
+
+    #CrimeList .pagination li.active a {
+      color: #fff;
+    }
+
+#CrimeList .prev, #CrimeList .next {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+  #CrimeList .prev.disabled, #CrimeList .next.disabled {
+    color: #ddd;
+    cursor: default;
+  }
+
+  #CrimeList .prev.disabled:hover, #CrimeList .next.disabled:hover {
+    text-decoration: none;
+  }
+
+#CrimeList .prev {
+  margin-right: 30px;
+}
+
+#CrimeList .next {
+  margin-left: 30px;
+}
+
+#CrimeList .list ul {
+  display: block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+  #CrimeList .list li {
+    display: block;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+  }
+
+    #CrimeList .list h3 {
+      margin-bottom: 5px;
+    }
+
+    #CrimeList .list h3 .time {
+      font-weight: normal;
+    }
+
+    #CrimeList .list p {
+      margin: 0;
+    }
+
+
+
+
