@@ -1,11 +1,19 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/** @jsx React.DOM */var React = require('react');
+/** @jsx React.DOM *//**
+ * Primary component controller for CrimeList feature
+ */
+
+var React = require('react');
 var Pagination = require ('./Pagination/index.jsx');
 var List = require('./List/index.jsx');
 
 
 var CrimeList = React.createClass({displayName: 'CrimeList',
 
+  /**
+   * Load data from data.seattle.gov
+   * on data loaded, set state with crime data
+   */
   loadData: function() {
     var request = new XMLHttpRequest();
 
@@ -29,12 +37,19 @@ var CrimeList = React.createClass({displayName: 'CrimeList',
     request.send();
   },
 
+  /**
+   * Set the state to a particular page
+   * @param  {Number} pageNo   page number in data
+   */
   changeToPage: function(pageNo) {
     this.setState({
       page: pageNo
     });
   },
 
+  /**
+   * Set default state properties
+   */
   getInitialState: function() {
     return {
       data: [],
@@ -47,6 +62,10 @@ var CrimeList = React.createClass({displayName: 'CrimeList',
     this.loadData();
   },
 
+  /**
+   * Pluck a particular dataset from the data based on current active page and
+   * display it as a paginated list
+   */
   render: function() {
     var startIndex = (this.state.page - 1) * this.props.itemsPerPage;
     var endIndex = (this.state.page * this.props.itemsPerPage);
@@ -68,11 +87,21 @@ var CrimeList = React.createClass({displayName: 'CrimeList',
 
 module.exports = CrimeList;
 },{"./List/index.jsx":3,"./Pagination/index.jsx":5,"react":undefined}],2:[function(require,module,exports){
-/** @jsx React.DOM */var React = require('react');
+/** @jsx React.DOM *//**
+ * Component for handling the display of individual items in the crime list
+ */
+
+
+var React = require('react');
 
 
 var ListItem = React.createClass({displayName: 'ListItem',
 
+  /**
+   * Format a date for display as "MM/DD/YYYY at HH:MM"
+   * @param  {Date} date   date instance to format
+   * @return {String}      formatted date as a string
+   */
   formatTime: function(date) {
     var minutes = date.getMinutes();
     var hours = date.getHours();
@@ -99,7 +128,12 @@ var ListItem = React.createClass({displayName: 'ListItem',
 
 module.exports = ListItem;
 },{"react":undefined}],3:[function(require,module,exports){
-/** @jsx React.DOM */var React = require('react');
+/** @jsx React.DOM *//**
+ * Component for handling the display of the crime list and list items
+ */
+
+
+var React = require('react');
 var ListItem = require('./ListItem.jsx');
 
 
@@ -122,7 +156,12 @@ var List = React.createClass({displayName: 'List',
 
 module.exports = List;
 },{"./ListItem.jsx":2,"react":undefined}],4:[function(require,module,exports){
-/** @jsx React.DOM */var React = require('react');
+/** @jsx React.DOM *//**
+ * component for handling display and events of a single pagination button
+ */
+
+
+var React = require('react');
 
 
 var PageButton = React.createClass({displayName: 'PageButton',
@@ -147,12 +186,22 @@ var PageButton = React.createClass({displayName: 'PageButton',
 
 module.exports = PageButton;
 },{"react":undefined}],5:[function(require,module,exports){
-/** @jsx React.DOM */var React = require('react');
+/** @jsx React.DOM *//**
+ * Component for displaying pagination buttons, with 5 buttons visible at a time
+ * and with prev/next links
+ */
+
+var React = require('react');
 var PageButton = require('./PageButton.jsx');
 
 
 var Pagination = React.createClass({displayName: 'Pagination',
 
+  /**
+   * Kind of crazy logic for getting the page numbers to display, according to
+   * which page is currently active, including handling display at the beginning
+   * and end of pages
+   */
   getPages: function() {
     var pages = [];
     // display 5 page buttons, or number of total pages, whichever is lowest
@@ -178,6 +227,10 @@ var Pagination = React.createClass({displayName: 'Pagination',
     return pages;
   },
 
+  /**
+   * on prev link click, shift active page down by 1, preventing shift less than 1
+   * @param  {Event} event  dom click event
+   */
   _onPrevClick: function(event) {
     event.preventDefault();
 
@@ -186,6 +239,11 @@ var Pagination = React.createClass({displayName: 'Pagination',
     }
   },
 
+  /**
+   * on next link click, shift active page up by 1, preventing shift more than
+   * total page count
+   * @param  {Event} event  dom click event
+   */
   _onNextClick: function(event) {
     event.preventDefault();
 
@@ -212,8 +270,8 @@ var Pagination = React.createClass({displayName: 'Pagination',
 
 module.exports = Pagination;
 },{"./PageButton.jsx":4,"react":undefined}],6:[function(require,module,exports){
-/**
-  * @jsx React.DOM
+/** @jsx React.DOM *//**
+  * Main bootstrap file for launching the application
   */
 
 var React = require('react');

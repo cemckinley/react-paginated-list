@@ -1,3 +1,7 @@
+/**
+ * Primary component controller for CrimeList feature
+ */
+
 var React = require('react');
 var Pagination = require ('./Pagination/index.jsx');
 var List = require('./List/index.jsx');
@@ -5,6 +9,10 @@ var List = require('./List/index.jsx');
 
 var CrimeList = React.createClass({
 
+  /**
+   * Load data from data.seattle.gov
+   * on data loaded, set state with crime data
+   */
   loadData: function() {
     var request = new XMLHttpRequest();
 
@@ -28,12 +36,19 @@ var CrimeList = React.createClass({
     request.send();
   },
 
+  /**
+   * Set the state to a particular page
+   * @param  {Number} pageNo   page number in data
+   */
   changeToPage: function(pageNo) {
     this.setState({
       page: pageNo
     });
   },
 
+  /**
+   * Set default state properties
+   */
   getInitialState: function() {
     return {
       data: [],
@@ -46,6 +61,10 @@ var CrimeList = React.createClass({
     this.loadData();
   },
 
+  /**
+   * Pluck a particular dataset from the data based on current active page and
+   * display it as a paginated list
+   */
   render: function() {
     var startIndex = (this.state.page - 1) * this.props.itemsPerPage;
     var endIndex = (this.state.page * this.props.itemsPerPage);

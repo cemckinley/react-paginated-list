@@ -1,5 +1,5 @@
 /**
-  * @jsx React.DOM
+  * Main bootstrap file for launching the application
   */
 
 var React = require('react');

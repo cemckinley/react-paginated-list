@@ -1,7 +1,18 @@
-# Basic example of using React with Browserify
+# Paginated List With React.js
 
-Run `npm install` in the directory to install React from npm. Then run:
+Demo of React.js in the form of a paginated list that pulls crime report data from data.seattle.gov
 
-    ./node_modules/.bin/browserify --debug --transform reactify ./index.js > ./bundle.js
+## Base Dependencies
+- node/npm (http://nodejs.org/)]
+- grunt-cli (http://gruntjs.com/getting-started)
+- ruby (already installed on OSX)
 
-to produce `bundle.js` with example code and React.
+
+## Project Installation - NPM
+This project can be installed locally using npm. After checking the project out from source control, `cd` to the root directory where package.json is located, and `npm install ./`.
+
+
+## Using grunt in the Terminal
+`cd` to the trunk directory with the Gruntfile.js and use the following commands:
+
+- `grunt run` : runs a local static server with automatic live-reloading on port http://localhost:8001. Lints javascript, runs browserify and react compilation, and starts a static server. Watches all files for changes.

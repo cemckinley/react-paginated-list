@@ -1,3 +1,8 @@
+/**
+ * component for handling display and events of a single pagination button
+ */
+
+
 var React = require('react');
 
 

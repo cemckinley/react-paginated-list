@@ -1,9 +1,19 @@
+/**
+ * Component for displaying pagination buttons, with 5 buttons visible at a time
+ * and with prev/next links
+ */
+
 var React = require('react');
 var PageButton = require('./PageButton.jsx');
 
 
 var Pagination = React.createClass({
 
+  /**
+   * Kind of crazy logic for getting the page numbers to display, according to
+   * which page is currently active, including handling display at the beginning
+   * and end of pages
+   */
   getPages: function() {
     var pages = [];
     // display 5 page buttons, or number of total pages, whichever is lowest
@@ -29,6 +39,10 @@ var Pagination = React.createClass({
     return pages;
   },
 
+  /**
+   * on prev link click, shift active page down by 1, preventing shift less than 1
+   * @param  {Event} event  dom click event
+   */
   _onPrevClick: function(event) {
     event.preventDefault();
 
@@ -37,6 +51,11 @@ var Pagination = React.createClass({
     }
   },
 
+  /**
+   * on next link click, shift active page up by 1, preventing shift more than
+   * total page count
+   * @param  {Event} event  dom click event
+   */
   _onNextClick: function(event) {
     event.preventDefault();
 

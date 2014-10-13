@@ -1,3 +1,8 @@
+/**
+ * Component for handling the display of the crime list and list items
+ */
+
+
 var React = require('react');
 var ListItem = require('./ListItem.jsx');
 
