@@ -145,6 +145,36 @@ header {
       margin: 0;
     }
 
+#CrimeList .icon-loading {
+  display: block;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  opacity: 1;
+  text-align: center;
+  width: 150px;
+  margin-left: -75px;
+  color: gray;
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+}
 
+#CrimeList .paginated-list {
+  position: relative;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+}
+#CrimeList .paginated-list.loaded {
+  opacity: 1;
+}
+
+  #CrimeList .paginated-list.loaded .icon-loading {
+    opacity: 0;
+  }
 
 

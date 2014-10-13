@@ -53,7 +53,8 @@ var CrimeList = React.createClass({
     var totalPages = Math.ceil(this.state.data.length / this.props.itemsPerPage);
 
     return(
-      <div id="paginated-list" className={this.state.loaded ? 'loaded' : 'loading'}>
+      <div className={this.state.loaded ? 'paginated-list loaded' : 'paginated-list loading'}>
+        <span className="icon-loading">Loading data...</span>
         <Pagination totalPages={totalPages} page={this.state.page} changeToPage={this.changeToPage}></Pagination>
         <List data={data}></List>
         <Pagination totalPages={totalPages} page={this.state.page} changeToPage={this.changeToPage}></Pagination>

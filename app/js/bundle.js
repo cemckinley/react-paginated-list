@@ -54,7 +54,8 @@ var CrimeList = React.createClass({displayName: 'CrimeList',
     var totalPages = Math.ceil(this.state.data.length / this.props.itemsPerPage);
 
     return(
-      React.DOM.div({id: "paginated-list", className: this.state.loaded ? 'loaded' : 'loading'}, 
+      React.DOM.div({className: this.state.loaded ? 'paginated-list loaded' : 'paginated-list loading'}, 
+        React.DOM.span({className: "icon-loading"}, "Loading data..."), 
         Pagination({totalPages: totalPages, page: this.state.page, changeToPage: this.changeToPage}), 
         List({data: data}), 
         Pagination({totalPages: totalPages, page: this.state.page, changeToPage: this.changeToPage})
