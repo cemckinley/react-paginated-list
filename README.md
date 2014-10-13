@@ -9,7 +9,7 @@ Demo of React.js in the form of a paginated list that pulls crime report data fr
 
 
 ## Project Installation - NPM
-This project can be installed locally using npm. After checking the project out from source control, `cd` to the root directory where package.json is located, and `npm install ./`.
+This project can be installed locally using npm. After checking the project out from source control, `cd` to the root directory where package.json is located, and `npm install`.
 
 
 ## Using grunt in the Terminal
