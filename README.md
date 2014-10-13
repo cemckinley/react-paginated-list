@@ -1,6 +1,6 @@
 # Paginated List With React.js
 
-Demo of React.js in the form of a paginated list that pulls crime report data from data.seattle.gov
+Demo of React.js in the form of a paginated list that pulls crime report data from data.seattle.gov. Uses Grunt for local dev and browserify for JS modules.
 
 ## Base Dependencies
 - node/npm (http://nodejs.org/)]
